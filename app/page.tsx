@@ -31,139 +31,150 @@ export default function AgencyHub() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-950 text-neutral-100 p-4 sm:p-8 font-sans">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <main className="min-h-screen bg-neutral-950 text-neutral-100 p-3.5 sm:p-6 lg:p-8 font-sans">
+      <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-neutral-800 pb-6">
-          <div>
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">⚡</span>
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
-                Verified Agency Radar & Client Engine
+        {/* Header Section - Fully Mobile Responsive */}
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-neutral-800/80 pb-5 sm:pb-6">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2.5">
+              <span className="flex items-center justify-center h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-lg shadow-sm">
+                ⚡
+              </span>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
+                Agency Hub & Client Radar
               </h1>
             </div>
-            <p className="text-neutral-400 text-sm mt-1">
-              Strictly fact-checked leads with real-time HTTP verification (Score 70+ required). No dead handles.
+            <p className="text-neutral-400 text-xs sm:text-sm pl-0.5 max-w-xl leading-relaxed">
+              Autonomous Web3 client radar with real-time verified founder channels & 1-click tailored pitches.
             </p>
           </div>
-          <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full text-xs font-mono text-emerald-400">
+
+          <div className="flex items-center gap-2 bg-neutral-900 border border-neutral-800 px-3 py-1.5 rounded-full text-xs font-mono text-emerald-400 self-start md:self-auto">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
             <span>{filteredLeads.length} Verified Leads (Score ≥ 70)</span>
           </div>
-        </div>
+        </header>
 
-        {/* Search & Filter Bar */}
+        {/* Search & Responsive Filter Bar */}
         <div className="flex flex-col sm:flex-row gap-3">
-          <input
-            type="text"
-            placeholder="Search company, founder, or stack (e.g. Next.js, Solana)..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 bg-neutral-900/80 border border-neutral-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition"
-          />
-          <div className="flex gap-2">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder="Search company, founder, or stack..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-neutral-900/90 border border-neutral-800 rounded-xl px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition shadow-inner"
+            />
+          </div>
+
+          {/* Filter Pills - Horizontal scrolling on mobile */}
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
             <button
               onClick={() => setFilterType('ALL')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition border ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
                 filterType === 'ALL'
                   ? 'bg-neutral-800 border-neutral-600 text-white'
-                  : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white'
+                  : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white'
               }`}
             >
-              All Verified ({leadsData.length})
+              All ({leadsData.length})
             </button>
             <button
               onClick={() => setFilterType('X')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition border ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
                 filterType === 'X'
-                  ? 'bg-purple-500/10 border-purple-500/40 text-purple-400'
-                  : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white'
+                  ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
+                  : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white'
               }`}
             >
-              𝕏 Verified Handles
+              𝕏 Verified
             </button>
             <button
               onClick={() => setFilterType('TELEGRAM')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition border ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
                 filterType === 'TELEGRAM'
                   ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-400'
-                  : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white'
+                  : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white'
               }`}
             >
-              ✈️ Telegram Direct
+              ✈️ Telegram
             </button>
           </div>
         </div>
 
-        {/* Leads Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Responsive Leads Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredLeads.map((lead: any) => (
             <div
               key={lead.id}
-              className="bg-neutral-900/50 border border-neutral-800/80 rounded-2xl p-5 hover:border-emerald-500/50 transition flex flex-col justify-between space-y-4 shadow-xl backdrop-blur-sm relative"
+              className="bg-neutral-900/60 border border-neutral-800/90 rounded-2xl p-4 sm:p-5 hover:border-emerald-500/40 transition-all duration-200 flex flex-col justify-between space-y-4 shadow-lg backdrop-blur-md"
             >
               <div className="space-y-3">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                {/* Company Name & Score Badge */}
+                <div className="flex justify-between items-start gap-2">
+                  <div className="min-w-0">
+                    <h3 className="text-sm sm:text-base font-bold text-white truncate">
                       <a href={lead.website} target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition underline underline-offset-4 decoration-neutral-700">
                         {lead.company}
                       </a>
                     </h3>
-                    <p className="text-xs text-neutral-400 mt-0.5">{lead.category}</p>
+                    <p className="text-[11px] sm:text-xs text-neutral-400 mt-0.5 truncate">{lead.category}</p>
                   </div>
-                  <span className="text-[11px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20 font-mono font-bold">
+                  <span className="text-[10px] sm:text-[11px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20 font-mono font-bold whitespace-nowrap shrink-0">
                     Score: {lead.verification_score || 85}/100 ✅
                   </span>
                 </div>
 
-                <div className="bg-neutral-950/60 border border-neutral-900 p-2.5 rounded-xl space-y-1">
-                  <div className="text-xs text-neutral-300 font-medium">
+                {/* Founder Info Box */}
+                <div className="bg-neutral-950/70 border border-neutral-900/80 p-2.5 rounded-xl space-y-1 text-xs">
+                  <div className="text-neutral-300 font-medium truncate">
                     👤 <strong className="text-white">{lead.founder}</strong> ({lead.role})
                   </div>
-                  <div className="text-[11px] text-neutral-500 flex justify-between">
-                    <span>📍 {lead.hq}</span>
-                    <span className="text-emerald-500/80 font-mono">Verified {lead.fact_checked_at || 'Today'}</span>
+                  <div className="text-[11px] text-neutral-500 flex justify-between items-center gap-1">
+                    <span className="truncate">📍 {lead.hq}</span>
+                    <span className="text-emerald-500/90 font-mono text-[10px] shrink-0">Verified {lead.fact_checked_at || 'Today'}</span>
                   </div>
                 </div>
 
+                {/* Tech Stack Pills */}
                 <div>
-                  <div className="text-[11px] text-neutral-400 uppercase tracking-wider font-mono mb-1.5">Stack:</div>
+                  <div className="text-[10px] text-neutral-400 uppercase tracking-wider font-mono mb-1.5">Stack:</div>
                   <div className="flex flex-wrap gap-1.5">
                     {lead.stack.split(',').slice(0, 4).map((tech: string, i: number) => (
-                      <span key={i} className="text-[10px] bg-neutral-800/60 text-emerald-300 px-2 py-0.5 rounded border border-neutral-800 font-mono">
+                      <span key={i} className="text-[10px] bg-neutral-800/80 text-emerald-300 px-2 py-0.5 rounded-md border border-neutral-700/50 font-mono">
                         {tech.trim()}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <p className="text-[11px] text-neutral-400 italic bg-neutral-950/40 p-2 rounded-lg border border-neutral-900/80">
+                {/* Verification Note */}
+                <p className="text-[11px] text-neutral-400 italic bg-neutral-950/50 p-2.5 rounded-xl border border-neutral-900/90 leading-relaxed">
                   &quot;{lead.notes}&quot;
                 </p>
               </div>
 
-              {/* Actions */}
-              <div className="space-y-2 pt-2 border-t border-neutral-800/80">
-                <div className="flex gap-2">
+              {/* Action Buttons - Always full width and comfortable on mobile */}
+              <div className="pt-2 border-t border-neutral-800/80">
+                <div className="grid grid-cols-2 gap-2">
                   <a
                     href={lead.contact}
                     target="_blank"
                     rel="noreferrer"
-                    className={`flex-1 text-center py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
+                    className={`text-center py-2 sm:py-2.5 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 truncate ${
                       lead.contact_type === 'Telegram'
                         ? 'bg-[#229ED9]/10 hover:bg-[#229ED9]/20 text-[#229ED9] border border-[#229ED9]/30'
                         : 'bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30'
                     }`}
                   >
-                    {lead.contact_type === 'Telegram' ? '✈️ Open Telegram' : '𝕏 Open Profile'}
+                    <span>{lead.contact_type === 'Telegram' ? '✈️ Telegram' : '𝕏 Profile'}</span>
                   </a>
                   <button
                     onClick={() => handleCopy(lead)}
-                    className="flex-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1"
+                    className="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 py-2 sm:py-2.5 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 truncate"
                   >
-                    {copiedId === lead.id ? '✔ Copied Pitch!' : '📋 Copy Pitch'}
+                    <span>{copiedId === lead.id ? '✔ Copied!' : '📋 Copy Pitch'}</span>
                   </button>
                 </div>
               </div>
