@@ -1,21 +1,68 @@
 'use client';
 
-import { useState } from 'react';
-import leadsData from '../data/leads.json';
+import { useState, useEffect } from 'react';
+import initialLeads from '../data/leads.json';
 
 export default function AgencyHub() {
+  const [leads, setLeads] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState('ALL');
   const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  const filteredLeads = leadsData.filter((lead: any) => {
+  // Load leads and filter out locally deleted ones
+  useEffect(() => {
+    try {
+      const deletedIds = JSON.parse(localStorage.getItem('deleted_lead_ids') || '[]');
+      const active = initialLeads.filter((l: any) => !deletedIds.includes(l.id));
+      setLeads(active);
+    } catch {
+      setLeads(initialLeads);
+    }
+  }, []);
+
+  // Instant deletion handler
+  async function handleDelete(leadId: number) {
+    if (!confirm('Are you sure you want to remove this lead from your pipeline?')) return;
+
+    setDeletingId(leadId);
+
+    // 1. Instant optimistic UI removal
+    setLeads((prev) => prev.filter((l) => l.id !== leadId));
+
+    // 2. Persist in localStorage so it never comes back on reload
+    try {
+      const deletedIds = JSON.parse(localStorage.getItem('deleted_lead_ids') || '[]');
+      if (!deletedIds.includes(leadId)) {
+        deletedIds.push(leadId);
+        localStorage.setItem('deleted_lead_ids', JSON.stringify(deletedIds));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    // 3. Permanent backend deletion via GitHub API
+    try {
+      await fetch('/api/leads/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: leadId }),
+      });
+    } catch (e) {
+      console.error('Server sync failed:', e);
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
+  const filteredLeads = leads.filter((lead: any) => {
     const matchesSearch =
       lead.company.toLowerCase().includes(search.toLowerCase()) ||
       lead.founder.toLowerCase().includes(search.toLowerCase()) ||
       lead.stack.toLowerCase().includes(search.toLowerCase());
     
-    if (filterType === 'TELEGRAM') return matchesSearch && lead.contact_type === 'Telegram';
-    if (filterType === 'X') return matchesSearch && lead.contact_type === 'X';
+    if (filterType === 'TELEGRAM') return matchesSearch && lead.contact_type?.toLowerCase() === 'telegram';
+    if (filterType === 'X') return matchesSearch && lead.contact_type?.toLowerCase() === 'x';
     return matchesSearch;
   });
 
@@ -31,10 +78,10 @@ export default function AgencyHub() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-950 text-neutral-100 p-3.5 sm:p-6 lg:p-8 font-sans">
+    <main className="min-h-screen bg-[#08080a] text-neutral-100 p-3.5 sm:p-6 lg:p-8 font-sans selection:bg-emerald-500/30">
       <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
         
-        {/* Header Section - Fully Mobile Responsive */}
+        {/* Header Section */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-neutral-800/80 pb-5 sm:pb-6">
           <div className="space-y-1">
             <div className="flex items-center gap-2.5">
@@ -50,9 +97,9 @@ export default function AgencyHub() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 bg-neutral-900 border border-neutral-800 px-3 py-1.5 rounded-full text-xs font-mono text-emerald-400 self-start md:self-auto">
+          <div className="flex items-center gap-2 bg-neutral-900 border border-neutral-800 px-3.5 py-1.5 rounded-full text-xs font-mono text-emerald-400 self-start md:self-auto shadow-sm">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-            <span>{filteredLeads.length} Verified Leads (Score ≥ 70)</span>
+            <span>{filteredLeads.length} Qualified Studios in Pipeline</span>
           </div>
         </header>
 
@@ -61,34 +108,23 @@ export default function AgencyHub() {
           <div className="relative flex-1">
             <input
               type="text"
-              placeholder="Search company, founder, or stack..."
+              placeholder="Search company, founder, or stack (e.g. Next.js, Solana, Bots)..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-neutral-900/90 border border-neutral-800 rounded-xl px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition shadow-inner"
             />
           </div>
 
-          {/* Filter Pills - Horizontal scrolling on mobile */}
           <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
             <button
               onClick={() => setFilterType('ALL')}
               className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
                 filterType === 'ALL'
-                  ? 'bg-neutral-800 border-neutral-600 text-white'
+                  ? 'bg-neutral-800 border-neutral-600 text-white shadow-sm'
                   : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white'
               }`}
             >
-              All ({leadsData.length})
-            </button>
-            <button
-              onClick={() => setFilterType('X')}
-              className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
-                filterType === 'X'
-                  ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
-                  : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white'
-              }`}
-            >
-              𝕏 Verified
+              All Active ({leads.length})
             </button>
             <button
               onClick={() => setFilterType('TELEGRAM')}
@@ -98,7 +134,17 @@ export default function AgencyHub() {
                   : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white'
               }`}
             >
-              ✈️ Telegram
+              ✈️ Telegram Direct
+            </button>
+            <button
+              onClick={() => setFilterType('X')}
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
+                filterType === 'X'
+                  ? 'bg-purple-500/10 border-purple-500/40 text-purple-300'
+                  : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white'
+              }`}
+            >
+              𝕏 Verified Profile
             </button>
           </div>
         </div>
@@ -108,12 +154,12 @@ export default function AgencyHub() {
           {filteredLeads.map((lead: any) => (
             <div
               key={lead.id}
-              className="bg-neutral-900/60 border border-neutral-800/90 rounded-2xl p-4 sm:p-5 hover:border-emerald-500/40 transition-all duration-200 flex flex-col justify-between space-y-4 shadow-lg backdrop-blur-md"
+              className="bg-neutral-900/60 border border-neutral-800/90 rounded-2xl p-4 sm:p-5 hover:border-neutral-700 transition-all duration-200 flex flex-col justify-between space-y-4 shadow-xl backdrop-blur-md relative group"
             >
               <div className="space-y-3">
-                {/* Company Name & Score Badge */}
+                {/* Company Name, Score Badge & Delete Button */}
                 <div className="flex justify-between items-start gap-2">
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <h3 className="text-sm sm:text-base font-bold text-white truncate">
                       <a href={lead.website} target="_blank" rel="noreferrer" className="hover:text-emerald-400 transition underline underline-offset-4 decoration-neutral-700">
                         {lead.company}
@@ -121,9 +167,22 @@ export default function AgencyHub() {
                     </h3>
                     <p className="text-[11px] sm:text-xs text-neutral-400 mt-0.5 truncate">{lead.category}</p>
                   </div>
-                  <span className="text-[10px] sm:text-[11px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20 font-mono font-bold whitespace-nowrap shrink-0">
-                    Score: {lead.verification_score || 85}/100 ✅
-                  </span>
+
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <span className="text-[10px] sm:text-[11px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20 font-mono font-bold whitespace-nowrap">
+                      Score: {lead.verification_score || 95}/100 ✅
+                    </span>
+
+                    {/* 🗑️ Delete Button */}
+                    <button
+                      onClick={() => handleDelete(lead.id)}
+                      disabled={deletingId === lead.id}
+                      title="Delete / Dismiss this lead"
+                      className="text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 p-1 rounded-lg transition border border-transparent hover:border-rose-500/20 text-xs font-mono"
+                    >
+                      {deletingId === lead.id ? '...' : '🗑️'}
+                    </button>
+                  </div>
                 </div>
 
                 {/* Founder Info Box */}
@@ -155,7 +214,7 @@ export default function AgencyHub() {
                 </p>
               </div>
 
-              {/* Action Buttons - Always full width and comfortable on mobile */}
+              {/* Action Buttons */}
               <div className="pt-2 border-t border-neutral-800/80">
                 <div className="grid grid-cols-2 gap-2">
                   <a
@@ -163,12 +222,12 @@ export default function AgencyHub() {
                     target="_blank"
                     rel="noreferrer"
                     className={`text-center py-2 sm:py-2.5 px-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 truncate ${
-                      lead.contact_type === 'Telegram'
+                      lead.contact_type?.toLowerCase() === 'telegram'
                         ? 'bg-[#229ED9]/10 hover:bg-[#229ED9]/20 text-[#229ED9] border border-[#229ED9]/30'
                         : 'bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30'
                     }`}
                   >
-                    <span>{lead.contact_type === 'Telegram' ? '✈️ Telegram' : '𝕏 Profile'}</span>
+                    <span>{lead.contact_type?.toLowerCase() === 'telegram' ? '✈️ Telegram' : '𝕏 Profile'}</span>
                   </a>
                   <button
                     onClick={() => handleCopy(lead)}
@@ -181,6 +240,13 @@ export default function AgencyHub() {
             </div>
           ))}
         </div>
+
+        {filteredLeads.length === 0 && (
+          <div className="text-center py-16 border border-dashed border-neutral-800 rounded-3xl space-y-2">
+            <span className="text-3xl">📭</span>
+            <p className="text-neutral-400 text-sm">No leads match your current filter.</p>
+          </div>
+        )}
 
       </div>
     </main>
