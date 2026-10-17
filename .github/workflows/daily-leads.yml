@@ -4,8 +4,10 @@ on:
   schedule:
     # Runs everyday at 03:00 UTC (9:00 AM Bangladesh Time)
     - cron: '0 3 * * *'
-  # Allows manual 1-click trigger from GitHub anytime
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   hunt-and-update:
@@ -26,7 +28,7 @@ jobs:
       - name: Execute Daily Lead Hunter Engine
         env:
           GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }}
-        run: node scripts/fetch-daily-leads.js
+        run: node scripts/fetch-daily-leads.mjs
 
       - name: Commit & Push Fresh Leads
         run: |
