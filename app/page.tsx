@@ -1,56 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import initialLeads from '../data/leads.json';
+import { useState } from 'react';
+import leadsData from '../data/leads.json';
 
 export default function AgencyHub() {
-  const [mounted, setMounted] = useState(false);
-  const [leads, setLeads] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState('ALL');
   const [copiedId, setCopiedId] = useState<number | null>(null);
-  const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  useEffect(() => {
-    setMounted(true);
-    try {
-      const deletedIds = JSON.parse(localStorage.getItem('deleted_lead_ids') || '[]');
-      const active = (initialLeads || []).filter((l: any) => !deletedIds.includes(l.id));
-      setLeads(active);
-    } catch {
-      setLeads(initialLeads || []);
-    }
-  }, []);
-
-  async function handleDelete(leadId: number) {
-    if (!confirm('Are you sure you want to remove this lead from your pipeline?')) return;
-    setDeletingId(leadId);
-    setLeads((prev) => prev.filter((l) => l.id !== leadId));
-
-    try {
-      const deletedIds = JSON.parse(localStorage.getItem('deleted_lead_ids') || '[]');
-      if (!deletedIds.includes(leadId)) {
-        deletedIds.push(leadId);
-        localStorage.setItem('deleted_lead_ids', JSON.stringify(deletedIds));
-      }
-    } catch (e) {
-      console.error(e);
-    }
-
-    try {
-      await fetch('/api/leads/delete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: leadId }),
-      });
-    } catch (e) {
-      console.error('Server sync failed:', e);
-    } finally {
-      setDeletingId(null);
-    }
-  }
-
-  const filteredLeads = leads.filter((lead: any) => {
+  // Filter directly from leads.json to prevent any mounting crashes
+  const filteredLeads = leadsData.filter((lead: any) => {
     const matchesSearch =
       (lead.company || '').toLowerCase().includes(search.toLowerCase()) ||
       (lead.founder || '').toLowerCase().includes(search.toLowerCase()) ||
@@ -70,14 +29,6 @@ export default function AgencyHub() {
     navigator.clipboard.writeText(pitch);
     setCopiedId(lead.id);
     setTimeout(() => setCopiedId(null), 2500);
-  }
-
-  if (!mounted) {
-    return (
-      <main className="min-h-screen bg-[#08080a] text-neutral-400 flex items-center justify-center font-mono text-sm">
-        Loading Agency Hub & Client Radar...
-      </main>
-    );
   }
 
   return (
@@ -127,7 +78,7 @@ export default function AgencyHub() {
                   : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white'
               }`}
             >
-              All Active ({leads.length})
+              All Active ({leadsData.length})
             </button>
             <button
               onClick={() => setFilterType('TELEGRAM')}
@@ -160,7 +111,7 @@ export default function AgencyHub() {
               className="bg-neutral-900/60 border border-neutral-800/90 rounded-2xl p-4 sm:p-5 hover:border-neutral-700 transition-all duration-200 flex flex-col justify-between space-y-4 shadow-xl backdrop-blur-md relative group"
             >
               <div className="space-y-3">
-                {/* Company Name, Score Badge & Delete Button */}
+                {/* Company Name & Score Badge */}
                 <div className="flex justify-between items-start gap-2">
                   <div className="min-w-0 flex-1">
                     <h3 className="text-sm sm:text-base font-bold text-white truncate">
@@ -175,16 +126,6 @@ export default function AgencyHub() {
                     <span className="text-[10px] sm:text-[11px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20 font-mono font-bold whitespace-nowrap">
                       Score: {lead.verification_score || 95}/100 ✅
                     </span>
-
-                    {/* 🗑️ Delete Button */}
-                    <button
-                      onClick={() => handleDelete(lead.id)}
-                      disabled={deletingId === lead.id}
-                      title="Delete / Dismiss this lead"
-                      className="text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 p-1 rounded-lg transition border border-transparent hover:border-rose-500/20 text-xs font-mono"
-                    >
-                      {deletingId === lead.id ? '...' : '🗑️'}
-                    </button>
                   </div>
                 </div>
 
