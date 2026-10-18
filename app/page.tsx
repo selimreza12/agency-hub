@@ -4,33 +4,29 @@ import { useState, useEffect } from 'react';
 import initialLeads from '../data/leads.json';
 
 export default function AgencyHub() {
+  const [mounted, setMounted] = useState(false);
   const [leads, setLeads] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [filterType, setFilterType] = useState('ALL');
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  // Load leads and filter out locally deleted ones
   useEffect(() => {
+    setMounted(true);
     try {
       const deletedIds = JSON.parse(localStorage.getItem('deleted_lead_ids') || '[]');
-      const active = initialLeads.filter((l: any) => !deletedIds.includes(l.id));
+      const active = (initialLeads || []).filter((l: any) => !deletedIds.includes(l.id));
       setLeads(active);
     } catch {
-      setLeads(initialLeads);
+      setLeads(initialLeads || []);
     }
   }, []);
 
-  // Instant deletion handler
   async function handleDelete(leadId: number) {
     if (!confirm('Are you sure you want to remove this lead from your pipeline?')) return;
-
     setDeletingId(leadId);
-
-    // 1. Instant optimistic UI removal
     setLeads((prev) => prev.filter((l) => l.id !== leadId));
 
-    // 2. Persist in localStorage so it never comes back on reload
     try {
       const deletedIds = JSON.parse(localStorage.getItem('deleted_lead_ids') || '[]');
       if (!deletedIds.includes(leadId)) {
@@ -41,7 +37,6 @@ export default function AgencyHub() {
       console.error(e);
     }
 
-    // 3. Permanent backend deletion via GitHub API
     try {
       await fetch('/api/leads/delete', {
         method: 'POST',
@@ -57,9 +52,9 @@ export default function AgencyHub() {
 
   const filteredLeads = leads.filter((lead: any) => {
     const matchesSearch =
-      lead.company.toLowerCase().includes(search.toLowerCase()) ||
-      lead.founder.toLowerCase().includes(search.toLowerCase()) ||
-      lead.stack.toLowerCase().includes(search.toLowerCase());
+      (lead.company || '').toLowerCase().includes(search.toLowerCase()) ||
+      (lead.founder || '').toLowerCase().includes(search.toLowerCase()) ||
+      (lead.stack || '').toLowerCase().includes(search.toLowerCase());
     
     if (filterType === 'TELEGRAM') return matchesSearch && lead.contact_type?.toLowerCase() === 'telegram';
     if (filterType === 'X') return matchesSearch && lead.contact_type?.toLowerCase() === 'x';
@@ -67,7 +62,7 @@ export default function AgencyHub() {
   });
 
   function getPitch(lead: any) {
-    return `Hey ${lead.founder}! 👋 Saw your studio's active work with ${lead.company} on ${lead.stack.includes('Solana') ? 'Solana' : 'Web3'}.\n\nI’m an AI-assisted Full-Stack Web3 Integrator (Next.js 16, Solana/EVM wallet adapters, serverless Telegram bots). If your team has overflow dev tasks, UI wrappers, or bot integrations, I white-label deliver within 24-48 hours for $150-$250 flat.\n\nHere is my live proof of work:\n🔗 Live dApp: https://solana-ai-copilot-66ks.vercel.app/\n🤖 Live Bot: https://t.me/solana_ai_copilot_terminal_bot\n\nHappy to pick up a test task whenever you need extra hands! 🤝`;
+    return `Hey ${lead.founder || 'Founder'}! 👋 Saw your studio's active work with ${lead.company || 'your project'} on ${lead.stack?.includes('Solana') ? 'Solana' : 'Web3'}.\n\nI’m an AI-assisted Full-Stack Web3 Integrator (Next.js 16, Solana/EVM wallet adapters, serverless Telegram bots). If your team has overflow dev tasks, UI wrappers, or bot integrations, I white-label deliver within 24-48 hours for $150-$250 flat.\n\nHere is my live proof of work:\n🔗 Live dApp: https://solana-ai-copilot-66ks.vercel.app/\n🤖 Live Bot: https://t.me/solana_ai_copilot_terminal_bot\n\nHappy to pick up a test task whenever you need extra hands! 🤝`;
   }
 
   function handleCopy(lead: any) {
@@ -75,6 +70,14 @@ export default function AgencyHub() {
     navigator.clipboard.writeText(pitch);
     setCopiedId(lead.id);
     setTimeout(() => setCopiedId(null), 2500);
+  }
+
+  if (!mounted) {
+    return (
+      <main className="min-h-screen bg-[#08080a] text-neutral-400 flex items-center justify-center font-mono text-sm">
+        Loading Agency Hub & Client Radar...
+      </main>
+    );
   }
 
   return (
@@ -200,7 +203,7 @@ export default function AgencyHub() {
                 <div>
                   <div className="text-[10px] text-neutral-400 uppercase tracking-wider font-mono mb-1.5">Stack:</div>
                   <div className="flex flex-wrap gap-1.5">
-                    {lead.stack.split(',').slice(0, 4).map((tech: string, i: number) => (
+                    {(lead.stack || '').split(',').slice(0, 4).map((tech: string, i: number) => (
                       <span key={i} className="text-[10px] bg-neutral-800/80 text-emerald-300 px-2 py-0.5 rounded-md border border-neutral-700/50 font-mono">
                         {tech.trim()}
                       </span>
