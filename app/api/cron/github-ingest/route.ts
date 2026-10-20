@@ -15,7 +15,7 @@ export async function GET(req: Request) {
     const existingEmails = new Set(leads.map((l) => l.email?.toLowerCase()).filter(Boolean));
 
     const ghRes = await fetch(
-      'https://api.github.com/search/repositories?q=solana+nextjs+stars:>5&sort=updated&order=desc&per_page=10',
+      'https://api.github.com/search/repositories?q=solana+nextjs+fork:false+size:<10000+pushed:>2025-01-01&sort=updated&order=desc&per_page=10',
       {
         headers: {
           Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
