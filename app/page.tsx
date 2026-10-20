@@ -144,7 +144,7 @@ export default function AgencyHub() {
                 <div>
                   <div className="text-[10px] text-neutral-400 uppercase tracking-wider font-mono mb-1.5">Stack:</div>
                   <div className="flex flex-wrap gap-1.5">
-                    {(lead.stack || '').split(',').slice(0, 4).map((tech: string, i: number) => (
+                    {(Array.isArray(lead.stack) ? lead.stack : typeof lead.stack === "string" ? lead.stack.split(",") : []).slice(0, 4).map((tech: string, i: number) => (
                       <span key={i} className="text-[10px] bg-neutral-800/80 text-emerald-300 px-2 py-0.5 rounded-md border border-neutral-700/50 font-mono">
                         {tech.trim()}
                       </span>

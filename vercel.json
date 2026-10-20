@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/github-ingest",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/email-dispatcher",
+      "schedule": "0 9 * * *"
+    }
+  ]
+}
