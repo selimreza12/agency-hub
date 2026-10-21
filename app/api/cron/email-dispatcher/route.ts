@@ -18,11 +18,10 @@ export async function GET(req: Request) {
   const pass = process.env.SMTP_PASS;
 
   if (!user || !pass) {
-    return NextResponse.json({ error: 'Missing SMTP_USER or SMTP_PASS in Vercel' }, { status: 400 });
+    return NextResponse.json({ error: 'Missing SMTP credentials in Vercel' }, { status: 400 });
   }
 
   try {
-    // Gmail-এর জন্য সবচেয়ে নির্ভরযোগ্য ও দ্রুত কানেকশন
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: { user, pass },
@@ -34,8 +33,17 @@ export async function GET(req: Request) {
     const BATCH_LIMIT = 5;
     let sentCount = 0;
 
+    // ডায়াগনস্টিক কাউন্টার
+    let totalWithEmail = 0;
+    let pendingVerified = 0;
+    let alreadySent = 0;
+
     for (const lead of leads) {
-      if (sentCount >= BATCH_LIMIT) break;
+      if (lead.email) totalWithEmail++;
+      if (lead.status === 'VERIFIED') pendingVerified++;
+      if (lead.status === 'SENT_INITIAL') alreadySent++;
+
+      if (sentCount >= BATCH_LIMIT) continue;
       if (!lead.email) continue;
 
       // ১. ইনিশিয়াল ইমেইল পাঠানো
@@ -52,11 +60,9 @@ export async function GET(req: Request) {
         lead.status = 'SENT_INITIAL';
         lead.sent_at = new Date().toISOString();
         sentCount++;
-
-        // মাত্র ১ সেকেন্ডের হালকা বিরতি (সার্ভারলেস ফ্রেন্ডলি)
         await sleep(1000);
       }
-      // ২. ৭২ ঘণ্টা পর স্বয়ংক্রিয় ফলো-আপ
+      // ২. ৭২ ঘণ্টা পর ফলো-আপ
       else if (lead.status === 'SENT_INITIAL' && lead.sent_at && lead.followup_body) {
         const timeElapsed = now - new Date(lead.sent_at).getTime();
 
@@ -71,19 +77,24 @@ export async function GET(req: Request) {
           lead.status = 'FOLLOWED_UP';
           lead.followed_up_at = new Date().toISOString();
           sentCount++;
-
           await sleep(1000);
         }
       }
     }
 
     if (sentCount > 0) {
-      await saveLeadsToGithub(leads, sha, `cron(dispatch): sent ${sentCount} emails via gmail service`);
+      await saveLeadsToGithub(leads, sha, `cron(dispatch): sent ${sentCount} outbound emails`);
     }
 
     return NextResponse.json({
       success: true,
       processed: sentCount,
+      database_status: {
+        total_leads_in_pipeline: leads.length,
+        leads_with_valid_email: totalWithEmail,
+        ready_to_send_now: pendingVerified,
+        already_sent_waiting_72h: alreadySent,
+      },
       timestamp: new Date().toISOString(),
     });
   } catch (err: unknown) {
