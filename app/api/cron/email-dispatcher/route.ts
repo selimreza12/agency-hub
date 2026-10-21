@@ -2,10 +2,7 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { getLeadsFromGithub, saveLeadsToGithub } from '@/lib/engine';
 
-// Vercel Serverless Function-কে ৬০ সেকেন্ড পর্যন্ত চলার অনুমতি দেওয়া
-export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
-
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function GET(req: Request) {
@@ -21,30 +18,27 @@ export async function GET(req: Request) {
   const pass = process.env.SMTP_PASS;
 
   if (!user || !pass) {
-    return NextResponse.json({ error: 'Missing SMTP credentials in Vercel' }, { status: 400 });
+    return NextResponse.json({ error: 'Missing SMTP_USER or SMTP_PASS in Vercel' }, { status: 400 });
   }
 
   try {
+    // Gmail-এর জন্য সবচেয়ে নির্ভরযোগ্য ও দ্রুত কানেকশন
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: Number(process.env.SMTP_PORT) || 465,
-      secure: process.env.SMTP_SECURE === 'true' || true,
+      service: 'gmail',
       auth: { user, pass },
     });
 
     const { leads, sha } = await getLeadsFromGithub();
     const now = Date.now();
     const SEVENTY_TWO_HOURS = 72 * 60 * 60 * 1000;
-    
-    // Vercel Timeout এড়াতে প্রতি রানে সর্বোচ্চ ৪টি ইমেইল
-    const BATCH_LIMIT = 4;
+    const BATCH_LIMIT = 5;
     let sentCount = 0;
 
     for (const lead of leads) {
       if (sentCount >= BATCH_LIMIT) break;
       if (!lead.email) continue;
 
-      // ১. ইনিশিয়াল ইমেইল পাঠানো (VERIFIED লিডগুলোর জন্য)
+      // ১. ইনিশিয়াল ইমেইল পাঠানো
       if (lead.status === 'VERIFIED' && lead.pitch_body) {
         const safeBody = `${lead.pitch_body}\n\n---\nP.S. If you prefer not to hear from me, reply 'stop' and I'll remove you immediately.`;
 
@@ -59,8 +53,8 @@ export async function GET(req: Request) {
         lead.sent_at = new Date().toISOString();
         sentCount++;
 
-        // ২.৫ সেকেন্ডের সেফ বিরতি (Vercel টাইমআউট ফ্রেন্ডলি)
-        await sleep(2500);
+        // মাত্র ১ সেকেন্ডের হালকা বিরতি (সার্ভারলেস ফ্রেন্ডলি)
+        await sleep(1000);
       }
       // ২. ৭২ ঘণ্টা পর স্বয়ংক্রিয় ফলো-আপ
       else if (lead.status === 'SENT_INITIAL' && lead.sent_at && lead.followup_body) {
@@ -78,13 +72,13 @@ export async function GET(req: Request) {
           lead.followed_up_at = new Date().toISOString();
           sentCount++;
 
-          await sleep(2500);
+          await sleep(1000);
         }
       }
     }
 
     if (sentCount > 0) {
-      await saveLeadsToGithub(leads, sha, `cron(dispatch): sent batch of ${sentCount} outbound emails`);
+      await saveLeadsToGithub(leads, sha, `cron(dispatch): sent ${sentCount} emails via gmail service`);
     }
 
     return NextResponse.json({
