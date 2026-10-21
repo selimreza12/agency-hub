@@ -54,10 +54,11 @@
     "notes": "PaperDesk: a single-writer matching engine, OMS outbox, Redis Streams, SSE catch-up, Timescale market data, and perp risk systems study, not a trading UI clone.",
     "verification_score": 80,
     "fact_checked_at": "2026-10-21",
-    "status": "VERIFIED",
+    "status": "SENT_INITIAL",
     "pitch_subject": "quick question regarding PaperDesk frontend backlog",
     "pitch_body": "Hey ParthKadam11, saw you guys are shipping on Solana, Next.js, TypeScript. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task.",
-    "followup_body": "Hey ParthKadam11, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate."
+    "followup_body": "Hey ParthKadam11, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate.",
+    "sent_at": "2026-10-21T12:44:12.788Z"
   },
   {
     "id": 1792586214510,
@@ -75,10 +76,11 @@
     "notes": "Self-hostable AI token pools — govern your org's AI usage with per-member keys, quotas, and leak detection; or deposit surplus credits into a Solana-settled marketplace.",
     "verification_score": 80,
     "fact_checked_at": "2026-10-21",
-    "status": "VERIFIED",
+    "status": "SENT_INITIAL",
     "pitch_subject": "quick question regarding Tributary frontend backlog",
     "pitch_body": "Hey Trần Đình Hồng Phát, saw you guys are shipping on Solana, Next.js, Rust. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task.",
-    "followup_body": "Hey Trần Đình Hồng Phát, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate."
+    "followup_body": "Hey Trần Đình Hồng Phát, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate.",
+    "sent_at": "2026-10-21T12:45:09.539Z"
   },
   {
     "id": 1792586215661,
@@ -96,10 +98,11 @@
     "notes": "Compressed-NFT (cNFT) minting platform for Solana. Bulk upload, live cost estimation, job-queue minting — frontend with mock data, ready for backend integration.",
     "verification_score": 80,
     "fact_checked_at": "2026-10-21",
-    "status": "VERIFIED",
+    "status": "SENT_INITIAL",
     "pitch_subject": "quick question regarding FriendlyMinter frontend backlog",
     "pitch_body": "Hey 404Piyush, saw you guys are shipping on Solana, Next.js, TypeScript. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task.",
-    "followup_body": "Hey 404Piyush, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate."
+    "followup_body": "Hey 404Piyush, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate.",
+    "sent_at": "2026-10-21T12:45:55.776Z"
   },
   {
     "id": 1792586215502,
@@ -117,10 +120,11 @@
     "notes": "Solana’s funniest wallet scanner ",
     "verification_score": 80,
     "fact_checked_at": "2026-10-21",
-    "status": "VERIFIED",
+    "status": "SENT_INITIAL",
     "pitch_subject": "quick question regarding didyoujeet frontend backlog",
     "pitch_body": "Hey DYJeet, saw you guys are shipping on Solana, Next.js, TypeScript. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task.",
-    "followup_body": "Hey DYJeet, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate."
+    "followup_body": "Hey DYJeet, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate.",
+    "sent_at": "2026-10-21T12:46:50.096Z"
   },
   {
     "id": 1792586216331,
@@ -138,10 +142,11 @@
     "notes": "Multichain airdrop and token gating dApp: Reown AppKit for EVM and Solana, SIWE/SIWS, gasless Merkle claims through an ERC-4337 paymaster, Foundry and Anchor contracts. Testnets only.",
     "verification_score": 80,
     "fact_checked_at": "2026-10-21",
-    "status": "VERIFIED",
+    "status": "SENT_INITIAL",
     "pitch_subject": "quick question regarding multichain-claim-gate frontend backlog",
     "pitch_body": "Hey narcis, saw you guys are shipping on Solana, Next.js, TypeScript. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task.",
-    "followup_body": "Hey narcis, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate."
+    "followup_body": "Hey narcis, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate.",
+    "sent_at": "2026-10-21T12:48:06.204Z"
   },
   {
     "id": 1792586217100,
@@ -159,9 +164,10 @@
     "notes": "seedlesslabs.xyz: the Seedless landing page",
     "verification_score": 80,
     "fact_checked_at": "2026-10-21",
-    "status": "VERIFIED",
+    "status": "SENT_INITIAL",
     "pitch_subject": "quick question regarding seedless-labs-landing frontend backlog",
     "pitch_body": "Hey francis-codex, saw you guys are shipping on Solana, Next.js, HTML. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task.",
-    "followup_body": "Hey francis-codex, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate."
+    "followup_body": "Hey francis-codex, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate.",
+    "sent_at": "2026-10-21T12:48:58.357Z"
   }
 ]
