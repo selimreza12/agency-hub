@@ -38,9 +38,10 @@
     "stack": "Solana, Next.js, TypeScript",
     "verification_score": 85,
     "fact_checked_at": "Today",
-    "status": "VERIFIED",
+    "status": "SENT_INITIAL",
     "pitch_subject": "quick question regarding PaperDesk frontend backlog",
-    "pitch_body": "Hey Parth, saw you guys are shipping on Solana and Next.js. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task."
+    "pitch_body": "Hey Parth, saw you guys are shipping on Solana and Next.js. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task.",
+    "sent_at": "2026-10-21T13:02:55.789Z"
   },
   {
     "id": 202,
@@ -55,8 +56,9 @@
     "stack": "Solana, Next.js, React",
     "verification_score": 85,
     "fact_checked_at": "Today",
-    "status": "VERIFIED",
+    "status": "SENT_INITIAL",
     "pitch_subject": "quick question regarding FriendlyMinter backlog",
-    "pitch_body": "Hey Piyush, noticed you are actively building on Solana and React. If you have any overflow UI/Next.js backlog tickets sitting around, I can help clear them in 48h. Live dApp demo: https://solana-ai-copilot-66ks.vercel.app/ - open to a quick test task."
+    "pitch_body": "Hey Piyush, noticed you are actively building on Solana and React. If you have any overflow UI/Next.js backlog tickets sitting around, I can help clear them in 48h. Live dApp demo: https://solana-ai-copilot-66ks.vercel.app/ - open to a quick test task.",
+    "sent_at": "2026-10-21T13:03:44.718Z"
   }
 ]
