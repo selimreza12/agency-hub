@@ -24,12 +24,9 @@ export interface Lead {
   followed_up_at?: string;
 }
 
-// ১. ডোমেইন ও নো-রিপ্লাই ফিল্টারিং
 export async function verifyEmailMx(email: string): Promise<boolean> {
   try {
     const cleanEmail = email.toLowerCase().trim();
-    
-    // বট, নো-রিপ্লাই ও গিটহাব ডামি ইমেইল বাদ দেওয়া
     if (
       cleanEmail.startsWith('noreply') ||
       cleanEmail.startsWith('no-reply') ||
@@ -38,10 +35,8 @@ export async function verifyEmailMx(email: string): Promise<boolean> {
     ) {
       return false;
     }
-
     const domain = cleanEmail.split('@')[1];
     if (!domain) return false;
-
     const mxRecords = await dns.resolveMx(domain);
     return mxRecords && mxRecords.length > 0;
   } catch {
@@ -49,7 +44,6 @@ export async function verifyEmailMx(email: string): Promise<boolean> {
   }
 }
 
-// ২. গিটহাব থেকে leads.json ফেচ করা
 export async function getLeadsFromGithub(): Promise<{ leads: Lead[]; sha: string }> {
   const res = await fetch(`https://api.github.com/repos/${process.env.GITHUB_REPO}/contents/data/leads.json`, {
     headers: {
@@ -63,10 +57,9 @@ export async function getLeadsFromGithub(): Promise<{ leads: Lead[]; sha: string
   return { leads: JSON.parse(content), sha: data.sha };
 }
 
-// ৩. গিটহাবে আপডেট করা leads.json পুশ করা
 export async function saveLeadsToGithub(leads: Lead[], sha: string, commitMessage: string) {
   const content = Buffer.from(JSON.stringify(leads, null, 2)).toString('base64');
-  await fetch(`https://api.github.com/repos/${process.env.GITHUB_REPO}/contents/data/leads.json`, {
+  const res = await fetch(`https://api.github.com/repos/${process.env.GITHUB_REPO}/contents/data/leads.json`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
@@ -79,9 +72,12 @@ export async function saveLeadsToGithub(leads: Lead[], sha: string, commitMessag
       sha,
     }),
   });
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(`GitHub Save Failed: ${errorData.message}`);
+  }
 }
 
-// ৪. Gemini AI দিয়ে নিখুঁত স্কোরিং ও পিচ ড্রাফটিং (gemini-1.5-flash মডেল)
 export async function scoreAndDraftWithGemini(lead: Partial<Lead>): Promise<{
   score: number;
   subject: string;
@@ -89,20 +85,18 @@ export async function scoreAndDraftWithGemini(lead: Partial<Lead>): Promise<{
   followup: string;
 }> {
   const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY;
-
   const prompt = `
-Analyze this Web3 developer lead for Md Selim Reza (Stack: Next.js 16, TypeScript, Solana Web3.js, AI SDK, Telegram Bots):
+Analyze this Web3 developer lead for Md Selim Reza:
 Name: ${lead.founder}
-Company / Repo: ${lead.company}
+Company: ${lead.company}
 Stack: ${lead.stack}
-Notes: ${lead.notes}
 
-Return a STRICT JSON object without markdown formatting:
+Return STRICT JSON:
 {
-  "score": <number 0-100 evaluating fit for Solana/Next.js/Web3 frontend needs>,
-  "subject": "<punchy, lowercase 4-6 word subject line referencing ${lead.company}>",
-  "pitch": "<personalized, concise 3-sentence pitch mentioning their stack, offering 48h overflow UI/telemetry sprint with Selim's live portfolio: https://solana-ai-copilot-66ks.vercel.app/ >",
-  "followup": "<1-sentence gentle follow-up bump for 3 days later>"
+  "score": 85,
+  "subject": "quick question regarding ${lead.company} backlog",
+  "pitch": "Hey ${lead.founder}, saw you guys are shipping on ${lead.stack}. If you have overflow Next.js/telemetry tickets, I can clear them in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+  "followup": "Hey ${lead.founder}, bumping this in case your sprint is heavy."
 }`;
 
   try {
@@ -113,32 +107,19 @@ Return a STRICT JSON object without markdown formatting:
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.2,
-            responseMimeType: 'application/json',
-          },
+          generationConfig: { responseMimeType: 'application/json' },
         }),
       }
     );
-
     const data = await res.json();
-    if (!res.ok) {
-      console.error('Gemini API Error details:', data?.error?.message || data);
-      throw new Error(data?.error?.message || 'Gemini call failed');
-    }
-
     let rawJson = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    // ক্লিনআপ ব্যাকটিক যদি থাকে
-    rawJson = rawJson.replace(/^```json\s*/, '').replace(/\s*```$/, '').trim();
-
-    return JSON.parse(rawJson);
-  } catch (err: any) {
-    console.error('Gemini fallback triggered:', err?.message || err);
+    return JSON.parse(rawJson.replace(/^```json\s*/, '').replace(/\s*```$/, '').trim());
+  } catch {
     return {
-      score: 80,
-      subject: `quick question regarding ${lead.company} frontend backlog`,
-      pitch: `Hey ${lead.founder}, saw you guys are shipping on ${lead.stack}. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task.`,
-      followup: `Hey ${lead.founder}, bumping this in case you're deep in a sprint—still open to taking a small UI ticket off your plate.`,
+      score: 85,
+      subject: `quick question regarding ${lead.company} backlog`,
+      pitch: `Hey ${lead.founder}, saw you shipping on ${lead.stack}. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/`,
+      followup: `Hey ${lead.founder}, just bumping this regarding backlog dev.`,
     };
   }
 }
