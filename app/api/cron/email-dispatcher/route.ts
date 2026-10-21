@@ -2,7 +2,10 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { getLeadsFromGithub, saveLeadsToGithub } from '@/lib/engine';
 
-// মানুষের মতো ন্যাচারাল বিরতি তৈরি করার ফাংশন (৪৫-৭৫ সেকেন্ড)
+// Vercel Serverless Function-কে ৬০ সেকেন্ড পর্যন্ত চলার অনুমতি দেওয়া
+export const maxDuration = 60;
+export const dynamic = 'force-dynamic';
+
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function GET(req: Request) {
@@ -18,7 +21,7 @@ export async function GET(req: Request) {
   const pass = process.env.SMTP_PASS;
 
   if (!user || !pass) {
-    return NextResponse.json({ error: 'Missing SMTP credentials' }, { status: 400 });
+    return NextResponse.json({ error: 'Missing SMTP credentials in Vercel' }, { status: 400 });
   }
 
   try {
@@ -32,16 +35,17 @@ export async function GET(req: Request) {
     const { leads, sha } = await getLeadsFromGithub();
     const now = Date.now();
     const SEVENTY_TWO_HOURS = 72 * 60 * 60 * 1000;
-    const DAILY_LIMIT = 10; // নিরাপদ রাখার জন্য দৈনিক সর্বোচ্চ ১০টি
+    
+    // Vercel Timeout এড়াতে প্রতি রানে সর্বোচ্চ ৪টি ইমেইল
+    const BATCH_LIMIT = 4;
     let sentCount = 0;
 
     for (const lead of leads) {
-      if (sentCount >= DAILY_LIMIT) break;
+      if (sentCount >= BATCH_LIMIT) break;
       if (!lead.email) continue;
 
-      // ১. ইনিশিয়াল ইমেইল পাঠানো
+      // ১. ইনিশিয়াল ইমেইল পাঠানো (VERIFIED লিডগুলোর জন্য)
       if (lead.status === 'VERIFIED' && lead.pitch_body) {
-        // স্প্যাম রিপোর্ট এড়াতে ভদ্র অপ্ট-আউট ফুটার
         const safeBody = `${lead.pitch_body}\n\n---\nP.S. If you prefer not to hear from me, reply 'stop' and I'll remove you immediately.`;
 
         await transporter.sendMail({
@@ -55,11 +59,10 @@ export async function GET(req: Request) {
         lead.sent_at = new Date().toISOString();
         sentCount++;
 
-        // প্রতি ইমেইলের পর ৪৫ থেকে ৭৫ সেকেন্ড র‍্যান্ডম বিরতি
-        const randomDelay = Math.floor(Math.random() * 30000) + 45000;
-        await sleep(randomDelay);
+        // ২.৫ সেকেন্ডের সেফ বিরতি (Vercel টাইমআউট ফ্রেন্ডলি)
+        await sleep(2500);
       }
-      // ২. ৭২ ঘণ্টা পর ফলো-আপ
+      // ২. ৭২ ঘণ্টা পর স্বয়ংক্রিয় ফলো-আপ
       else if (lead.status === 'SENT_INITIAL' && lead.sent_at && lead.followup_body) {
         const timeElapsed = now - new Date(lead.sent_at).getTime();
 
@@ -75,14 +78,13 @@ export async function GET(req: Request) {
           lead.followed_up_at = new Date().toISOString();
           sentCount++;
 
-          const randomDelay = Math.floor(Math.random() * 30000) + 45000;
-          await sleep(randomDelay);
+          await sleep(2500);
         }
       }
     }
 
     if (sentCount > 0) {
-      await saveLeadsToGithub(leads, sha, `cron(dispatch): safely sent ${sentCount} throttled emails`);
+      await saveLeadsToGithub(leads, sha, `cron(dispatch): sent batch of ${sentCount} outbound emails`);
     }
 
     return NextResponse.json({
