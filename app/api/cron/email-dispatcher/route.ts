@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { getLeadsFromGithub, saveLeadsToGithub } from '@/lib/engine';
 
-export const dynamic = 'force-dynamic';
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function GET(req: Request) {
@@ -33,7 +32,6 @@ export async function GET(req: Request) {
     const BATCH_LIMIT = 5;
     let sentCount = 0;
 
-    // ডায়াগনস্টিক কাউন্টার
     let totalWithEmail = 0;
     let pendingVerified = 0;
     let alreadySent = 0;
@@ -46,7 +44,6 @@ export async function GET(req: Request) {
       if (sentCount >= BATCH_LIMIT) continue;
       if (!lead.email) continue;
 
-      // ১. ইনিশিয়াল ইমেইল পাঠানো
       if (lead.status === 'VERIFIED' && lead.pitch_body) {
         const safeBody = `${lead.pitch_body}\n\n---\nP.S. If you prefer not to hear from me, reply 'stop' and I'll remove you immediately.`;
 
@@ -62,7 +59,6 @@ export async function GET(req: Request) {
         sentCount++;
         await sleep(1000);
       }
-      // ২. ৭২ ঘণ্টা পর ফলো-আপ
       else if (lead.status === 'SENT_INITIAL' && lead.sent_at && lead.followup_body) {
         const timeElapsed = now - new Date(lead.sent_at).getTime();
 
