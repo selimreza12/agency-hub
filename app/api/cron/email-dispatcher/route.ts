@@ -29,23 +29,36 @@ export async function GET(req: Request) {
     const { leads, sha } = await getLeadsFromGithub();
     const now = Date.now();
     const SEVENTY_TWO_HOURS = 72 * 60 * 60 * 1000;
-    const BATCH_LIMIT = 5;
+    const BATCH_LIMIT = 3; // দিনে বা প্রতি রানে সুরক্ষার জন্য সর্বোচ্চ ৩টি
     let sentCount = 0;
 
-    let totalWithEmail = 0;
-    let pendingVerified = 0;
-    let alreadySent = 0;
+    let pendingApproval = 0;
+    let readyToSend = 0;
+    let optedOut = 0;
 
     for (const lead of leads) {
-      if (lead.email) totalWithEmail++;
-      if (lead.status === 'VERIFIED') pendingVerified++;
-      if (lead.status === 'SENT_INITIAL') alreadySent++;
+      // অপ্ট-আউট বা ব্লকড লিড হিসাব করা
+      if (lead.status === 'OPT_OUT' || lead.status === 'BOUNCED') {
+        optedOut++;
+        continue;
+      }
+      if (lead.status === 'VERIFIED' || !lead.status) {
+        pendingApproval++;
+        // Day 3 রুল: যতক্ষণ না স্ট্যাটাস 'APPROVED' বা 'VERIFIED' এর সাথে ক্লিয়ারেন্স ফ্ল্যাগ থাকে, 
+        // আমরা এখন থেকে শুধুমাত্র সেই লিড পাঠাবো যেগুলোর status === 'APPROVED' (Human-in-the-loop safety)
+        // তবে টেস্টের সুবিধার্থে বর্তমানে 'VERIFIED' কেও ড্রাফট ধরে রাখব।
+      }
+
+      if (lead.status === 'APPROVED') {
+        readyToSend++;
+      }
 
       if (sentCount >= BATCH_LIMIT) continue;
       if (!lead.email) continue;
 
-      if (lead.status === 'VERIFIED' && lead.pitch_body) {
-        const safeBody = `${lead.pitch_body}\n\n---\nP.S. If you prefer not to hear from me, reply 'stop' and I'll remove you immediately.`;
+      // শুধুমাত্র 'APPROVED' স্ট্যাটাসযুক্ত লিডগুলোই এখন আউটবাউন্ডে যাবে (Human Approval Check)
+      if (lead.status === 'APPROVED' && lead.pitch_body) {
+        const safeBody = `${lead.pitch_body}\n\n---\nP.S. If you prefer not to hear from me, just reply 'stop' and I will remove you immediately.`;
 
         await transporter.sendMail({
           from: process.env.FROM_EMAIL || `"Md Selim Reza" <${user}>`,
@@ -57,8 +70,9 @@ export async function GET(req: Request) {
         lead.status = 'SENT_INITIAL';
         lead.sent_at = new Date().toISOString();
         sentCount++;
-        await sleep(1000);
+        await sleep(1500);
       }
+      // ৭২ ঘণ্টা পর ফলো-আপ (যদি অপ্ট-আউট না করে থাকে)
       else if (lead.status === 'SENT_INITIAL' && lead.sent_at && lead.followup_body) {
         const timeElapsed = now - new Date(lead.sent_at).getTime();
 
@@ -73,23 +87,22 @@ export async function GET(req: Request) {
           lead.status = 'FOLLOWED_UP';
           lead.followed_up_at = new Date().toISOString();
           sentCount++;
-          await sleep(1000);
+          await sleep(1500);
         }
       }
     }
 
     if (sentCount > 0) {
-      await saveLeadsToGithub(leads, sha, `cron(dispatch): sent ${sentCount} outbound emails`);
+      await saveLeadsToGithub(leads, sha, `cron(dispatch): human-approved dispatch of ${sentCount} emails`);
     }
 
     return NextResponse.json({
       success: true,
       processed: sentCount,
-      database_status: {
-        total_leads_in_pipeline: leads.length,
-        leads_with_valid_email: totalWithEmail,
-        ready_to_send_now: pendingVerified,
-        already_sent_waiting_72h: alreadySent,
+      safety_pipeline_status: {
+        opted_out_or_blocked: optedOut,
+        pending_human_approval: pendingApproval,
+        approved_and_ready: readyToSend,
       },
       timestamp: new Date().toISOString(),
     });
