@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LeadScout HQ — Agency Hub & Client Radar
 
-## Getting Started
+An AI-assisted lead discovery and outreach pipeline for independent
+developers and boutique engineering studios.
 
-First, run the development server:
+## Live Production Assets
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Dashboard:** https://agency-hub-ruddy-chi.vercel.app/
+- **Solana AI Copilot:** https://solana-ai-copilot-66ks.vercel.app/
+- **Telegram Bot:** https://t.me/solana_ai_copilot_terminal_bot
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Core Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- GitHub-based discovery of relevant, active repositories.
+- DNS MX checks and filtering of automated email addresses.
+- AI-assisted lead qualification and contextual proposal generation.
+- Controlled email dispatch with configurable sending limits.
+- Follow-up workflow, subject to reply detection and opt-out checks.
+- Dashboard for searching, reviewing and managing leads.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture
 
-## Learn More
+1. **Discovery:** Collect potentially relevant developer and project leads.
+2. **Verification:** Check domain mail records and filter unsuitable addresses.
+3. **Qualification:** Evaluate technical relevance and generate evidence-based
+   summaries using the configured AI provider.
+4. **Review:** Verify the lead, contact source and message before outreach.
+5. **Dispatch:** Send only to appropriate recipients under configured limits.
+6. **Monitoring:** Track delivery, replies, errors and opt-out requests.
 
-To learn more about Next.js, take a look at the following resources:
+## Technology
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next.js and TypeScript
+- Tailwind CSS
+- Google Gemini API, if configured
+- Nodemailer and configured SMTP
+- GitHub API for data synchronization
+- Vercel deployment and scheduled jobs
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Verify the exact versions and integrations against the current source code
+and package.json before relying on this documentation.
 
-## Deploy on Vercel
+## Safety and Limitations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- A technically relevant lead is not proof of buying intent or available budget.
+- DNS MX records do not prove that a specific mailbox exists or accepts email.
+- AI-generated scores and proposals require human review.
+- Sending limits depend on the configured email provider and its policies.
+- Follow-ups must stop when a recipient replies, opts out, or is otherwise
+  ineligible for further contact.
+- Comply with applicable privacy, anti-spam and email-provider requirements.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Author
+
+**Md Selim Reza**
+
+AI Integrator and Independent Developer
+
+Portfolio: https://solana-ai-copilot-66ks.vercel.app/
+
