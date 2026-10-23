@@ -16,7 +16,7 @@ export interface Lead {
   verification_score: number;
   fact_checked_at: string;
   email?: string;
-  status?: 'PENDING' | 'VERIFIED' | 'SENT_INITIAL' | 'FOLLOWED_UP' | 'REPLIED' | 'BOUNCED';
+  status?: 'PENDING' | 'VERIFIED' | 'APPROVED' | 'SENT_INITIAL' | 'FOLLOWED_UP' | 'REPLIED' | 'BOUNCED' | 'OPT_OUT';
   pitch_subject?: string;
   pitch_body?: string;
   followup_body?: string;
@@ -58,6 +58,8 @@ export async function getLeadsFromGithub(): Promise<{ leads: Lead[]; sha: string
 }
 
 export async function saveLeadsToGithub(leads: Lead[], sha: string, commitMessage: string) {
+  // [skip ci] যোগ করা যাতে প্রতিবার ক্রন জবে ডাটাবেজ আপডেট হলে Vercel অযথা রি-বিল্ড না করে
+  const safeMessage = commitMessage.includes('[skip ci]') ? commitMessage : `${commitMessage} [skip ci]`;
   const content = Buffer.from(JSON.stringify(leads, null, 2)).toString('base64');
   const res = await fetch(`https://api.github.com/repos/${process.env.GITHUB_REPO}/contents/data/leads.json`, {
     method: 'PUT',
@@ -67,7 +69,7 @@ export async function saveLeadsToGithub(leads: Lead[], sha: string, commitMessag
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      message: commitMessage,
+      message: safeMessage,
       content,
       sha,
     }),
