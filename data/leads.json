@@ -357,5 +357,26 @@
     "pitch_subject": "quick question regarding mintline backlog",
     "pitch_body": "Hey ANIRUDDHA ADAK, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey ANIRUDDHA ADAK, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1792808357077,
+    "company": "stonkpile",
+    "website": "https://github.com/DimiMili/stonkpile",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "Takisoul",
+    "role": "Lead Developer / Founder",
+    "contact": "takisoul2021@gmail.com",
+    "contact_type": "Email",
+    "email": "takisoul2021@gmail.com",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "Every tokenized stock on Solana, rated. Live index across seven issuers, with an MCP endpoint for agents.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-10-24",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding stonkpile backlog",
+    "pitch_body": "Hey Takisoul, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey Takisoul, just bumping this regarding backlog dev."
   }
 ]
