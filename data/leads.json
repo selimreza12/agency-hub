@@ -383,9 +383,10 @@
     "notes": "Actively committing to Next.js + Solana repositories; potential fit for frontend component offloading.",
     "verification_score": 85,
     "fact_checked_at": "Today",
-    "status": "APPROVED",
+    "status": "SENT_INITIAL",
     "pitch_subject": "quick question regarding PaperDesk frontend backlog",
-    "pitch_body": "Hey Parth, saw you guys are shipping on Solana and Next.js. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task."
+    "pitch_body": "Hey Parth, saw you guys are shipping on Solana and Next.js. If your team needs to offload frontend tickets or telemetry integration without hiring full-time, I can knock out a sprint in 48h. Proof of work: https://solana-ai-copilot-66ks.vercel.app/ - happy to pick up a test task.",
+    "sent_at": "2026-10-24T09:55:47.378Z"
   },
   {
     "id": 1792721957269,
