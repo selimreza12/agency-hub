@@ -943,5 +943,26 @@
     "pitch_subject": "quick question regarding Word-Dash backlog",
     "pitch_body": "Hey Sanket Sadadiya, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey Sanket Sadadiya, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1793067557600,
+    "company": "payphone",
+    "website": "https://github.com/sdeac2026-dotcom/payphone",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "Mayega",
+    "role": "Lead Developer / Founder",
+    "contact": "lex.ecosystem@gmail.com",
+    "contact_type": "Email",
+    "email": "lex.ecosystem@gmail.com",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "PayPhone — phone-number crypto payments. LIVE: payphone-div0.onrender.com. Multi-chain settlement (Bitcoin, Ethereum, Base, Solana, Tron +7 more), stateless signed invoices, built-in revenue engine. Rust · Next.js · Python · Solidity.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-10-27",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding payphone backlog",
+    "pitch_body": "Hey Mayega, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey Mayega, just bumping this regarding backlog dev."
   }
 ]
