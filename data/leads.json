@@ -724,11 +724,12 @@
     "notes": "A white-label vault protocol for deposits and withdrawals across all online casinos. A unified infrastructure layer that enables casinos to manage deposits, withdrawals, and user funds through customizable, secure vaults.",
     "verification_score": 85,
     "fact_checked_at": "2026-10-23",
-    "status": "SENT_INITIAL",
+    "status": "FOLLOWED_UP",
     "pitch_subject": "quick question regarding casinovaultinfra backlog",
     "pitch_body": "Hey Kshitij Gajapure, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey Kshitij Gajapure, just bumping this regarding backlog dev.",
-    "sent_at": "2026-10-23T09:55:47.061Z"
+    "sent_at": "2026-10-23T09:55:47.061Z",
+    "followed_up_at": "2026-10-27T09:55:47.161Z"
   },
   {
     "id": 1792721957394,
@@ -746,11 +747,12 @@
     "notes": "Self-hostable AI token pools — govern your org's AI usage with per-member keys, quotas, and leak detection; or deposit surplus credits into a Solana-settled marketplace.",
     "verification_score": 85,
     "fact_checked_at": "2026-10-23",
-    "status": "SENT_INITIAL",
+    "status": "FOLLOWED_UP",
     "pitch_subject": "quick question regarding Tributary backlog",
     "pitch_body": "Hey Trần Đình Hồng Phát, saw you shipping on Solana, Next.js, Rust. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey Trần Đình Hồng Phát, just bumping this regarding backlog dev.",
-    "sent_at": "2026-10-23T09:55:48.734Z"
+    "sent_at": "2026-10-23T09:55:48.734Z",
+    "followed_up_at": "2026-10-27T09:55:49.349Z"
   },
   {
     "id": 1792721957730,
@@ -768,11 +770,12 @@
     "notes": "Real-time Solana narrative intelligence: tracks which market stories are forming and decaying, powered by Birdeye data.",
     "verification_score": 85,
     "fact_checked_at": "2026-10-23",
-    "status": "SENT_INITIAL",
+    "status": "FOLLOWED_UP",
     "pitch_subject": "quick question regarding wavefront backlog",
     "pitch_body": "Hey Ghostiemoh, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey Ghostiemoh, just bumping this regarding backlog dev.",
-    "sent_at": "2026-10-23T09:55:50.341Z"
+    "sent_at": "2026-10-23T09:55:50.341Z",
+    "followed_up_at": "2026-10-27T09:55:51.393Z"
   },
   {
     "id": 1792721958510,
