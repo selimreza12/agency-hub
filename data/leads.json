@@ -953,11 +953,12 @@
     "notes": "A real-money app to fork. Buy credits from a Bankroll balance, cash them back out — set up by your coding agent.",
     "verification_score": 85,
     "fact_checked_at": "2026-10-23",
-    "status": "SENT_INITIAL",
+    "status": "FOLLOWED_UP",
     "pitch_subject": "quick question regarding bankroll-starter backlog",
     "pitch_body": "Hey Gianni Settino, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey Gianni Settino, just bumping this regarding backlog dev.",
-    "sent_at": "2026-10-23T09:55:51.874Z"
+    "sent_at": "2026-10-23T09:55:51.874Z",
+    "followed_up_at": "2026-10-28T09:55:47.036Z"
   },
   {
     "id": 1792721959346,
@@ -975,11 +976,12 @@
     "notes": "Solana’s funniest wallet scanner ",
     "verification_score": 85,
     "fact_checked_at": "2026-10-23",
-    "status": "SENT_INITIAL",
+    "status": "FOLLOWED_UP",
     "pitch_subject": "quick question regarding didyoujeet backlog",
     "pitch_body": "Hey DYJeet, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey DYJeet, just bumping this regarding backlog dev.",
-    "sent_at": "2026-10-23T09:55:53.382Z"
+    "sent_at": "2026-10-23T09:55:53.382Z",
+    "followed_up_at": "2026-10-28T09:55:49.104Z"
   },
   {
     "id": 1792721959813,
