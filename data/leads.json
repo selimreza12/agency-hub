@@ -1840,5 +1840,26 @@
     "pitch_subject": "quick question regarding music-investment-solana backlog",
     "pitch_body": "Hey juapperez, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey juapperez, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1793499556958,
+    "company": "first-onchain",
+    "website": "https://github.com/nirholas/first-onchain",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "nirholas",
+    "role": "Lead Developer / Founder",
+    "contact": "claudescammer@outlook.com",
+    "contact_type": "Email",
+    "email": "claudescammer@outlook.com",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "A transaction-v1 creation studio for atomic Solana launches, onchain media, agents, and vanity wallets.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-11-01",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding first-onchain backlog",
+    "pitch_body": "Hey nirholas, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey nirholas, just bumping this regarding backlog dev."
   }
 ]
