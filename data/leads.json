@@ -1,5 +1,21 @@
 [
   {
+    "id": 1793585957837,
+    "company": "Swap.io",
+    "website": "https://swap.io",
+    "category": "Solana DEX aggregator startup",
+    "founder": "Not publicly disclosed",
+    "role": "Founder",
+    "contact": "https://x.com/swap_dot_io",
+    "contact_type": "x",
+    "stack": "Next.js, TypeScript, Solana, DEX aggregation",
+    "headcount": 5,
+    "hq": "Remote",
+    "notes": "Aggregates best swap routes and rates on Solana across top DEX aggregators, with a small remote engineering team.",
+    "verification_score": 95,
+    "fact_checked_at": "Nov 2, 2026"
+  },
+  {
     "id": 1793585957828,
     "company": "Wagmi Venture Studio",
     "website": "https://github.com/WagmiVS",
