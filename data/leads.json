@@ -2425,5 +2425,26 @@
     "pitch_subject": "quick question regarding pairpad-scripti backlog",
     "pitch_body": "Hey SynOrq, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey SynOrq, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1793758757937,
+    "company": "solViz",
+    "website": "https://github.com/umutyesildal/solViz",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "umutyesildal",
+    "role": "Lead Developer / Founder",
+    "contact": "umutyesildal97@gmail.com",
+    "contact_type": "Email",
+    "email": "umutyesildal97@gmail.com",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "Natural language to chart tool for Solana data. 2025 prototype, archived.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-11-04",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding solViz backlog",
+    "pitch_body": "Hey umutyesildal, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey umutyesildal, just bumping this regarding backlog dev."
   }
 ]
