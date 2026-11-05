@@ -2606,5 +2606,26 @@
     "pitch_subject": "quick question regarding solViz backlog",
     "pitch_body": "Hey umutyesildal, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey umutyesildal, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1793845157359,
+    "company": "hashwire",
+    "website": "https://github.com/Shahryartariq/hashwire",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "Muhammad Shehryar",
+    "role": "Lead Developer / Founder",
+    "contact": "Shahryartariq57@gmail.com",
+    "contact_type": "Email",
+    "email": "Shahryartariq57@gmail.com",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "Hashwire: crypto news by blockchain. 22 networks, each with its own page, price and 24h change; 13 sources read every 15 minutes, same story grouped once. Next.js 16, TypeScript, CoinGecko, Vercel.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-11-05",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding hashwire backlog",
+    "pitch_body": "Hey Muhammad Shehryar, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey Muhammad Shehryar, just bumping this regarding backlog dev."
   }
 ]
