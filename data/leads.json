@@ -2947,5 +2947,26 @@
     "pitch_subject": "quick question regarding hashwire backlog",
     "pitch_body": "Hey Muhammad Shehryar, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey Muhammad Shehryar, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1794017956539,
+    "company": "fabrica",
+    "website": "https://github.com/FabricaAgents/fabrica",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "Fabrica",
+    "role": "Lead Developer / Founder",
+    "contact": "hello@getfabrica.fun",
+    "contact_type": "Email",
+    "email": "hello@getfabrica.fun",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "Open source factory for AI agents. One sentence in, a tested agent out, attacked before it sells and paid per call in USDC. Remix any agent, the maker earns.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-11-07",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding fabrica backlog",
+    "pitch_body": "Hey Fabrica, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey Fabrica, just bumping this regarding backlog dev."
   }
 ]
