@@ -3700,5 +3700,26 @@
     "pitch_subject": "quick question regarding blackbox backlog",
     "pitch_body": "Hey Bamioishim, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey Bamioishim, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1794622756943,
+    "company": "soltrace",
+    "website": "https://github.com/dev-enoch/soltrace",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "Dev Enoch",
+    "role": "Lead Developer / Founder",
+    "contact": "arhyelphilip024@gmail.com",
+    "contact_type": "Email",
+    "email": "arhyelphilip024@gmail.com",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "Portfolio risk terminal for Solana wallets.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-11-14",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding soltrace backlog",
+    "pitch_body": "Hey Dev Enoch, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey Dev Enoch, just bumping this regarding backlog dev."
   }
 ]
