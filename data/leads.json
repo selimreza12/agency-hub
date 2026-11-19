@@ -3952,5 +3952,26 @@
     "pitch_subject": "quick question regarding CryptoPay backlog",
     "pitch_body": "Hey GanymedeNil, saw you shipping on Solana, Next.js, Go. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey GanymedeNil, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1795054757983,
+    "company": "aegis-web3-agent",
+    "website": "https://github.com/5pzf2hdmc9-lab/aegis-web3-agent",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "5pzf2hdmc9-lab",
+    "role": "Lead Developer / Founder",
+    "contact": "5pzf2hdmc9@privaterelay.appleid.com",
+    "contact_type": "Email",
+    "email": "5pzf2hdmc9@privaterelay.appleid.com",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "Multi-chain Web3 risk & contract auditing agent combining deterministic EVM/Solana RPC detectors with structured Gemini AI verdicts.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-11-19",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding aegis-web3-agent backlog",
+    "pitch_body": "Hey 5pzf2hdmc9-lab, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey 5pzf2hdmc9-lab, just bumping this regarding backlog dev."
   }
 ]
