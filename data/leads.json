@@ -4015,5 +4015,26 @@
     "pitch_subject": "quick question regarding interviewlenz backlog",
     "pitch_body": "Hey Hamza Ahmed, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey Hamza Ahmed, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1795227558624,
+    "company": "ROAM-Platform",
+    "website": "https://github.com/SerDiuK/ROAM-Platform",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "Thomas Goethals",
+    "role": "Lead Developer / Founder",
+    "contact": "thomas@tgmgoethals.dev",
+    "contact_type": "Email",
+    "email": "thomas@tgmgoethals.dev",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "AI-powered emergency dispatch on Solana: every dispatch event is an on-chain transaction signed by the responder's Solana Mobile Seeker. EasyA Consensus Hackathon, Miami, May 2026.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-11-21",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding ROAM-Platform backlog",
+    "pitch_body": "Hey Thomas Goethals, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey Thomas Goethals, just bumping this regarding backlog dev."
   }
 ]
