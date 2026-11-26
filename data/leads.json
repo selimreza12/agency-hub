@@ -4204,5 +4204,26 @@
     "pitch_subject": "quick question regarding sol-faucet backlog",
     "pitch_body": "Hey nitindahiya-dev, saw you shipping on Solana, Next.js, JavaScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
     "followup_body": "Hey nitindahiya-dev, just bumping this regarding backlog dev."
+  },
+  {
+    "id": 1795659557886,
+    "company": "propchange",
+    "website": "https://github.com/dimitrijnemesh/propchange",
+    "category": "Solana/Next.js Open Builder",
+    "founder": "Nemesh Dima",
+    "role": "Lead Developer / Founder",
+    "contact": "dimitrijnemesh@gmail.com",
+    "contact_type": "Email",
+    "email": "dimitrijnemesh@gmail.com",
+    "stack": "Solana, Next.js, TypeScript",
+    "headcount": "<10 devs",
+    "hq": "Remote",
+    "notes": "The Seat Market for copy trading on Solana: limited Seats behind verified traders, USDC escrow, automatic refund when a trader breaks the rules.",
+    "verification_score": 85,
+    "fact_checked_at": "2026-11-26",
+    "status": "VERIFIED",
+    "pitch_subject": "quick question regarding propchange backlog",
+    "pitch_body": "Hey Nemesh Dima, saw you shipping on Solana, Next.js, TypeScript. Happy to clear backlog tickets in 48h. Proof: https://solana-ai-copilot-66ks.vercel.app/",
+    "followup_body": "Hey Nemesh Dima, just bumping this regarding backlog dev."
   }
 ]
